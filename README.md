@@ -26,3 +26,8 @@ Therefore, for voltage to mbar: $10^{1.667* V-11.33}$, where V is the input volt
 # Requirements
 pip install picosdk
 
+# How to Use
+Simply run the Pressure_GUI.py script. E.g.,
+```
+python3 Pressure_GUI.py
+```

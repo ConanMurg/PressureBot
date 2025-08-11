@@ -426,6 +426,15 @@ class App:
         # Pack all the widgets.
         self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=tk.TRUE)
 
+        self.master.protocol('WM_DELETE_WINDOW', lambda: self.confirm_exit(self.master)) # GUI exit protocol
+        
+    def confirm_exit(self, master):
+        print("CLOSING")
+        master.quit()
+        print("DESTROYING")
+        master.destroy()
+        return
+
     def validate_time_range(self, new_value):
         try:
             # Ensure the first character is always "0"
@@ -458,6 +467,8 @@ class App:
             delta = timedelta(hours=time_value)
         elif time_unit == 'days':
             delta = timedelta(days=time_value)
+        else:
+            delta = timedelta(days=0)
 
         self.datetime_variable = datetime.now() - delta
         # print("Selected Datetime:", self.datetime_variable)
@@ -544,6 +555,8 @@ class App:
             self.after_id = None
             self.start_collection_button.config(state=tk.NORMAL)
             self.stop_collection_button.config(state=tk.DISABLED)
+        
+        return
 
     def get_latest_value(self):
         self.data_collector.get_latest_value()
@@ -562,7 +575,12 @@ class App:
 
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = App(root)
-    root.protocol("WM_DELETE_WINDOW", root.destroy)  # Handle window close event
-    root.mainloop()
+    try:
+        root = tk.Tk()
+        app = App(root)
+        # root.protocol("WM_DELETE_WINDOW", root.destroy)  # Handle window close event
+        root.mainloop()
+        print("Test")
+        root.destroy()
+    except Exception as e:
+        print("Closing GUI")
